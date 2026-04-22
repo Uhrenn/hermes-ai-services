@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hermes AI Services | AI-Automatisering for Norske Bedrifter</title>
+    <meta name="description" content="Hermes AI Services bygger skreddersydde AI-agenter for norske SMB-bedrifter. Automatiser kundeservice, innholdsproduksjon og arbeidsflyter.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #0A0A0F;
+            --color-surface: #12121A;
+            --color-surface-light: #1A1A25;
+            --color-border: #2A2A3A;
+            --color-text: #E2E8F0;
+            --color-text-muted: #94A3B8;
+            --color-primary: #00D4FF;
+            --color-primary-dim: #00D4FF20;
+            --color-accent: #7C3AED;
+            --color-success: #10B981;
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.7;
+        }
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(10,10,15,0.8); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--color-border);
+        }
+        .nav-inner {
+            max-width: 1200px; margin: 0 auto; padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .nav-logo { font-weight: 700; font-size: 1.25rem; color: var(--color-primary); text-decoration: none; }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { color: var(--color-text-muted); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--color-text); }
+        .hero {
+            min-height: 100vh; display: flex; align-items: center;
+            padding: 6rem 2rem 4rem; position: relative; overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 30% 20%, rgba(0,212,255,0.08) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 80%, rgba(124,58,237,0.06) 0%, transparent 50%);
+        }
+        .hero-inner {
+            max-width: 1200px; margin: 0 auto; position: relative; z-index: 1;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700; line-height: 1.1; margin-bottom: 1.5rem;
+        }
+        .hero h1 span { color: var(--color-primary); }
+        .hero p { font-size: 1.1rem; color: var(--color-text-muted); margin-bottom: 2rem; max-width: 500px; }
+        .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn {
+            display: inline-block; padding: 0.875rem 2rem;
+            text-decoration: none; border-radius: 8px; font-weight: 600;
+            transition: all 0.3s; border: none; cursor: pointer; font-size: 1rem;
+        }
+        .btn-primary { background: var(--color-primary); color: var(--color-bg); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(0,212,255,0.3); }
+        .btn-secondary { background: transparent; color: var(--color-text); border: 1px solid var(--color-border); }
+        .btn-secondary:hover { border-color: var(--color-primary); }
+        .hero-visual {
+            background: var(--color-surface); border: 1px solid var(--color-border);
+            border-radius: 16px; padding: 2rem; position: relative;
+        }
+        .chat-demo {
+            background: var(--color-bg); border-radius: 12px; padding: 1.5rem;
+            border: 1px solid var(--color-border);
+        }
+        .chat-msg { display: flex; gap: 0.75rem; margin-bottom: 1rem; }
+        .chat-msg.bot .avatar { background: var(--color-primary-dim); color: var(--color-primary); }
+        .chat-msg.user .avatar { background: var(--color-accent); }
+        .avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }
+        .chat-bubble { background: var(--color-surface-light); padding: 0.75rem 1rem; border-radius: 12px; font-size: 0.85rem; }
+        .chat-msg.bot .chat-bubble { border-bottom-left-radius: 4px; }
+        .chat-msg.user { flex-direction: row-reverse; }
+        .chat-msg.user .chat-bubble { background: var(--color-primary-dim); border-bottom-right-radius: 4px; }
+        .typing { display: flex; gap: 0.25rem; align-items: center; padding: 0.5rem 1rem; }
+        .typing span { width: 6px; height: 6px; background: var(--color-primary); border-radius: 50%; animation: typing 1.4s infinite; }
+        .typing span:nth-child(2) { animation-delay: 0.2s; }
+        .typing span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-4px); } }
+        .features {
+            padding: 6rem 2rem; background: var(--color-surface);
+        }
+        .section-header {
+            max-width: 800px; margin: 0 auto 4rem; text-align: center;
+        }
+        .section-header h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1rem; }
+        .section-header p { color: var(--color-text-muted); font-size: 1.1rem; }
+        .features-grid {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;
+        }
+        .feature-card {
+            background: var(--color-bg); border: 1px solid var(--color-border);
+            border-radius: 12px; padding: 2rem; transition: all 0.3s;
+        }
+        .feature-card:hover { transform: translateY(-4px); border-color: var(--color-primary); }
+        .feature-icon {
+            width: 48px; height: 48px; border-radius: 12px;
+            background: var(--color-primary-dim); display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; margin-bottom: 1.5rem;
+        }
+        .feature-card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; }
+        .feature-card p { color: var(--color-text-muted); font-size: 0.9rem; }
+        .industries {
+            padding: 6rem 2rem;
+        }
+        .industries-grid {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;
+        }
+        .industry-card {
+            background: var(--color-surface); border: 1px solid var(--color-border);
+            border-radius: 12px; padding: 1.5rem; text-decoration: none; color: inherit;
+            transition: all 0.3s;
+        }
+        .industry-card:hover { border-color: var(--color-primary); transform: translateY(-2px); }
+        .industry-card h4 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .industry-card p { color: var(--color-text-muted); font-size: 0.85rem; }
+        .stats {
+            padding: 4rem 2rem; background: var(--color-surface);
+            border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);
+        }
+        .stats-grid {
+            max-width: 1000px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center;
+        }
+        .stat-value { font-size: 2.5rem; font-weight: 700; color: var(--color-primary); }
+        .stat-label { color: var(--color-text-muted); font-size: 0.9rem; }
+        .testimonials {
+            padding: 6rem 2rem;
+        }
+        .testimonials-grid {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;
+        }
+        .testimonial-card {
+            background: var(--color-surface); border: 1px solid var(--color-border);
+            border-radius: 12px; padding: 2rem;
+        }
+        .testimonial-card .quote { font-style: italic; color: var(--color-text-muted); margin-bottom: 1.5rem; }
+        .testimonial-card .author { font-weight: 600; }
+        .testimonial-card .role { color: var(--color-text-muted); font-size: 0.85rem; }
+        .cta-section {
+            padding: 6rem 2rem; text-align: center;
+            background: radial-gradient(ellipse at center, rgba(0,212,255,0.05) 0%, transparent 70%);
+        }
+        .cta-section h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1rem; }
+        .cta-section p { color: var(--color-text-muted); margin-bottom: 2rem; font-size: 1.1rem; }
+        .footer {
+            background: var(--color-surface); border-top: 1px solid var(--color-border);
+            padding: 3rem 2rem; text-align: center; color: var(--color-text-muted);
+        }
+        .footer a { color: var(--color-primary); text-decoration: none; }
+        @media (max-width: 768px) {
+            .hero-inner { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="./index.html" class="nav-logo">Hermes AI</a>
+            <div class="nav-links">
+                <a href="#tjenester">Tjenester</a>
+                <a href="#industrier">Industrier</a>
+                <a href="./blog/index.html">Blogg</a>
+                <a href="#kontakt">Kontakt</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-inner">
+            <div>
+                <h1>AI-Agenter som <span>Arbeider for Deg</span></h1>
+                <p>Vi bygger skreddersydde AI-agenter for norske bedrifter. Automatiser kundeservice, innholdsproduksjon og arbeidsflyter – uten teknisk kompetanse.</p>
+                <div class="hero-btns">
+                    <a href="#kontakt" class="btn btn-primary">Book Gratis Konsultasjon</a>
+                    <a href="#tjenester" class="btn btn-secondary">Se våre tjenester</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="chat-demo">
+                    <div class="chat-msg bot">
+                        <div class="avatar">AI</div>
+                        <div class="chat-bubble">Hei! Jeg er din nye AI-konsulent. Jeg kan hjelpe med kundeservice, rapportering og mye mer. Hva trenger du hjelp med?</div>
+                    </div>
+                    <div class="chat-msg user">
+                        <div class="avatar">DU</div>
+                        <div class="chat-bubble">Kan du håndtere kundehenvendelser på norsk?</div>
+                    </div>
+                    <div class="chat-msg bot">
+                        <div class="avatar">AI</div>
+                        <div class="chat-bubble">Selvsagt! Jeg snakker flytende norsk og kan håndtere komplekse henvendelser 24/7. Jeg lærer også av hver samtale for å bli bedre.</div>
+                    </div>
+                    <div class="typing"><span></span><span></span><span></span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="tjenester">
+        <div class="section-header">
+            <h2>Hva Vi Gjør</h2>
+            <p>Skreddersydde AI-løsninger for din bedrift</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>Kundeservice-Agenter</h3>
+                <p>AI-agenter som svarer på henvendelser 24/7 på norsk. Integreres med eksisterende systemer og eskalerer til mennesker ved behov.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📝</div>
+                <h3>Innholdsproduksjon</h3>
+                <p>Automatisk generering av blogginnlegg, produktbeskrivelser, rapporter og markedsføringsmateriell – tilpasset din stemme.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Arbeidsflyt-Automatisering</h3>
+                <p>La AI håndtere repetitive oppgaver som dataregistrering, fakturering, oppfølging og rapportering.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Dataanalyse</h3>
+                <p>AI-drevet analyse av salgsdata, kundeadferd og markedstrender for bedre beslutninger.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌐</div>
+                <h3>Web-Integrasjon</h3>
+                <p>Chatbots og AI-assistenter på din nettside som konverterer besøkende til kunder.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>Kontinuerlig Læring</h3>
+                <p>Våre agenter lærer av hver interaksjon og blir bedre over tid – uten at du trenger å gjøre noe.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="stats-grid">
+            <div><div class="stat-value">24/7</div><div class="stat-label">Tilgjengelighet</div></div>
+            <div><div class="stat-value">60%</div><div class="stat-label">Kostnadsreduksjon</div></div>
+            <div><div class="stat-value">&lt;2s</div><div class="stat-label">Svartid</div></div>
+            <div><div class="stat-value">100%</div><div class="stat-label">Norsk Språk</div></div>
+        </div>
+    </section>
+
+    <section class="industries" id="industrier">
+        <div class="section-header">
+            <h2>Industrier Vi Hjelper</h2>
+            <p>AI-løsninger tilpasset din bransje</p>
+        </div>
+        <div class="industries-grid">
+            <a href="./industry/manufacturing.html" class="industry-card">
+                <h4>🏭 Produksjon</h4>
+                <p>Automatiser ordrebehandling, lagerstyring og kvalitetskontroll</p>
+            </a>
+            <a href="./industry/ecommerce.html" class="industry-card">
+                <h4>🛒 E-handel</h4>
+                <p>AI-drevet kundeservice, produktanbefalinger og innholdsproduksjon</p>
+            </a>
+            <a href="./industry/realestate.html" class="industry-card">
+                <h4>🏠 Eiendom</h4>
+                <p>Automatisk verdivurdering, markedsanalyse og kundeoppfølging</p>
+            </a>
+            <a href="./industry/professionalservices.html" class="industry-card">
+                <h4>💼 Profesjonelle Tjenester</h4>
+                <p>Rapportering, timeregistrering og kundeservice for konsulenter</p>
+            </a>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="section-header">
+            <h2>Hva Kundene Sier</h2>
+            <p>Ekte tilbakemeldinger fra norske bedrifter</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <p class="quote">"Hermes AI-reduserte våre kundeservice-kostnader med 60% samtidig som kundetilfredsheten gikk opp. Absolutt en game-changer for oss."</p>
+                <div class="author">Anne Larsen</div>
+                <div class="role">Daglig leder, NordTech AS</div>
+            </div>
+            <div class="testimonial-card">
+                <p class="quote">"Vi sparer 20 timer i uken på manuell rapportering. AI-agenten vår genererer nå rapporter automatisk hver morgen."</p>
+                <div class="author">Erik Johansen</div>
+                <div class="role">CFO, KonsultGruppen AS</div>
+            </div>
+            <div class="testimonial-card">
+                <p class="quote">"Innholdsproduksjonen vår er 5x raskere nå. AI skriver produktbeskrivelser og blogginnlegg som faktisk konverterer."</p>
+                <div class="author">Maria Hansen</div>
+                <div class="role">Markedsdirektør, NettButikk AS</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section" id="kontakt">
+        <h2>Klar for å Automatisere?</h2>
+        <p>Book en gratis 30-minutters konsultasjon. Vi viser deg hvordan AI kan spare din bedrift tid og penger.</p>
+        <a href="mailto:hermes-assist@proton.me?subject=Gratis%20Konsultasjon" class="btn btn-primary">Book Gratis Konsultasjon</a>
+    </section>
+
+    <footer class="footer">
+        <p>© 2026 Hermes AI Services. Bygget for norske bedrifter.</p>
+        <p>E-post: <a href="mailto:hermes-assist@proton.me">hermes-assist@proton.me</a></p>
+        <p><a href="./blog/index.html">Les vår blogg</a></p>
+    </footer>
+</body>
+</html>
