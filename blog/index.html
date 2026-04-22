@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogg - Hermes AI Services | AI-Automatisering for Norske Bedrifter</title>
+    <meta name="description" content="Fagartikler og guider om AI-automatisering, AI-agenter og digital transformasjon for norske SMB-bedrifter.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #0A0A0F;
+            --color-surface: #12121A;
+            --color-surface-light: #1A1A25;
+            --color-border: #2A2A3A;
+            --color-text: #E2E8F0;
+            --color-text-muted: #94A3B8;
+            --color-primary: #00D4FF;
+            --color-primary-dim: #00D4FF20;
+            --color-accent: #7C3AED;
+            --color-success: #10B981;
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.7;
+        }
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(10,10,15,0.8); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--color-border);
+        }
+        .nav-inner {
+            max-width: 1200px; margin: 0 auto; padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .nav-logo { font-weight: 700; font-size: 1.25rem; color: var(--color-primary); text-decoration: none; }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { color: var(--color-text-muted); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--color-text); }
+        .page-header {
+            padding: 8rem 2rem 4rem; text-align: center;
+            max-width: 800px; margin: 0 auto;
+        }
+        .page-header h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700; margin-bottom: 1rem;
+        }
+        .page-header p { color: var(--color-text-muted); font-size: 1.1rem; }
+        .blog-grid {
+            max-width: 1200px; margin: 0 auto; padding: 0 2rem 4rem;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;
+        }
+        .blog-card {
+            background: var(--color-surface); border: 1px solid var(--color-border);
+            border-radius: 12px; padding: 2rem; transition: transform 0.3s, border-color 0.3s;
+        }
+        .blog-card:hover { transform: translateY(-4px); border-color: var(--color-primary); }
+        .blog-card .tag {
+            display: inline-block; padding: 0.25rem 0.75rem;
+            background: var(--color-primary-dim); color: var(--color-primary);
+            border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-bottom: 1rem;
+        }
+        .blog-card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; }
+        .blog-card p { color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: 1rem; }
+        .blog-card .meta { color: var(--color-text-muted); font-size: 0.8rem; }
+        .blog-card a { color: var(--color-primary); text-decoration: none; font-weight: 600; }
+        .footer {
+            background: var(--color-surface); border-top: 1px solid var(--color-border);
+            padding: 3rem 2rem; text-align: center; color: var(--color-text-muted);
+        }
+        .footer a { color: var(--color-primary); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="../index.html" class="nav-logo">Hermes AI</a>
+            <div class="nav-links">
+                <a href="../index.html">Hjem</a>
+                <a href="../index.html#tjenester">Tjenester</a>
+                <a href="./index.html">Blogg</a>
+                <a href="../index.html#kontakt">Kontakt</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <h1>Blogg</h1>
+        <p>Innsikt, guider og analyser om AI-automatisering for norske bedrifter</p>
+    </header>
+
+    <section class="blog-grid">
+        <article class="blog-card">
+            <span class="tag">Strategi</span>
+            <h3><a href="./ai-vs-manual-customer-service.html">AI vs Manuell Kundeservice: Hva Er Best for Din Bedrift?</a></h3>
+            <p>En grundig sammenligning av kostnader, responstid, kvalitet og når du bør velge hvilken løsning.</p>
+            <p class="meta">22. april 2026 • 8 min lesning</p>
+        </article>
+        <article class="blog-card">
+            <span class="tag">Teknologi</span>
+            <h3><a href="./future-of-ai-agents-2026.html">Fremtiden for AI-Agenter i 2026</a></h3>
+            <p>Autonome agenter, multi-agent systemer og visuell forståelse – dette må du vite om fremtidens AI.</p>
+            <p class="meta">22. april 2026 • 10 min lesning</p>
+        </article>
+        <article class="blog-card">
+            <span class="tag">Praktisk guide</span>
+            <h3><a href="./kom-i-gang-med-ai-agenter.html">Kom i Gang med AI-Agenter: En Praktisk Guide</a></h3>
+            <p>Steg-for-steg guide for bedrifter som vil implementere sine første AI-agenter uten teknisk ekspertise.</p>
+            <p class="meta">22. april 2026 • 12 min lesning</p>
+        </article>
+        <article class="blog-card">
+            <span class="tag">Case Study</span>
+            <h3><a href="./case-study-ehandel-kundeservice.html">Case Study: Hvordan En Nettbutikk Reduserte Kundeservice-Kostnader med 60%</a></h3>
+            <p>En norsk e-handelsbedrift automatiserte kundeservice og så dramatiske resultater på både kostnad og kundetilfredshet.</p>
+            <p class="meta">22. april 2026 • 6 min lesning</p>
+        </article>
+        <article class="blog-card">
+            <span class="tag">Økonomi</span>
+            <h3><a href="./kostnadsfordeler-ai-automatisering.html">De Skjulte Kostnadsfordelene med AI-Automatisering</a></h3>
+            <p>Beyond lønnsbesparelser: oppdag hvordan AI reduserer feil, forbedrer kundelojalitet og skaper nye inntektsmuligheter.</p>
+            <p class="meta">22. april 2026 • 7 min lesning</p>
+        </article>
+        <article class="blog-card">
+            <span class="tag">Juridisk</span>
+            <h3><a href="./ai-og-personvern.html">AI og Personvern: Hva Norske Bedrifter Må Vite</a></h3>
+            <p>GDPR, NIS2 og etiske retningslinjer – en praktisk guide til ansvarlig AI-bruk i Norge.</p>
+            <p class="meta">22. april 2026 • 9 min lesning</p>
+        </article>
+    </section>
+
+    <footer class="footer">
+        <p>© 2026 Hermes AI Services. Bygget for norske bedrifter.</p>
+        <p><a href="../index.html">Tilbake til forsiden</a></p>
+    </footer>
+</body>
+</html>
